@@ -1,0 +1,58 @@
+{
+  "roles": {
+    "finance": {
+      "accessible_departments": ["finance", "general"],
+      "documents": [
+        "Finance/financial_summary.md",
+        "Finance/quarterly_financial_report.md",
+        "general/employee_handbook.md"
+      ]
+    },
+    "marketing": {
+      "accessible_departments": ["marketing", "general"],
+      "documents": [
+        "marketing/marketing_report_2024.md",
+        "marketing/marketing_report_q1_2024.md",
+        "marketing/marketing_report_q2_2024.md",
+        "marketing/marketing_report_q3_2024.md",
+        "marketing/market_report_q4_2024.md",
+        "general/employee_handbook.md"
+      ]
+    },
+    "hr": {
+      "accessible_departments": ["hr", "general"],
+      "documents": [
+        "HR/hr_data.csv",
+        "general/employee_handbook.md"
+      ]
+    },
+    "engineering": {
+      "accessible_departments": ["engineering", "general"],
+      "documents": [
+        "engineering/engineering_master_doc.md",
+        "general/employee_handbook.md"
+      ]
+    },
+    "employee": {
+      "accessible_departments": ["general"],
+      "documents": [
+        "general/employee_handbook.md"
+      ]
+    },
+    "c_level": {
+      "accessible_departments": ["finance", "marketing", "hr", "engineering", "general"],
+      "documents": [
+        "Finance/financial_summary.md",
+        "Finance/quarterly_financial_report.md",
+        "marketing/marketing_report_2024.md",
+        "marketing/marketing_report_q1_2024.md",
+        "marketing/marketing_report_q2_2024.md",
+        "marketing/marketing_report_q3_2024.md",
+        "marketing/market_report_q4_2024.md",
+        "HR/hr_data.csv",
+        "engineering/engineering_master_doc.md",
+        "general/employee_handbook.md"
+      ]
+    }
+  }
+}
