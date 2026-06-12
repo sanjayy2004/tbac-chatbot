@@ -10,6 +10,9 @@ CHUNKS_PATH = Path("data/processed_chunks.json")
 VECTOR_DB_PATH = Path("vector_db/chroma_db")
 
 # ── Load embedding model ───────────────────────────────────────
+import os
+os.environ["TRANSFORMERS_OFFLINE"] = "1"
+os.environ["HF_DATASETS_OFFLINE"] = "1"
 print("⏳ Loading embedding model...")
 model = SentenceTransformer("all-MiniLM-L6-v2")
 print("✅ Embedding model loaded!")
