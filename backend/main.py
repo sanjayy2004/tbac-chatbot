@@ -7,7 +7,7 @@ from typing import Optional
 import jwt
 import os
 from dotenv import load_dotenv
-
+from backend.rag import rag_pipeline
 from backend.database import create_tables, get_db, User
 from backend.auth import (
     authenticate_user, create_access_token,
@@ -17,7 +17,7 @@ from backend.rbac import (
     get_role_info, get_accessible_departments,
     preprocess_query, filter_results_by_role
 )
-from backend.vector_store import search
+
 
 load_dotenv()
 
@@ -129,39 +129,17 @@ def chat(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    # Preprocess query
-    clean_query = preprocess_query(request.query)
-
-    # Search vector store
-    results = search(clean_query, current_user.role, top_k=3)
-
-    # Filter by role
-    filtered = filter_results_by_role(results, current_user.role)
+    # Run RAG pipeline
+    result = rag_pipeline(request.query, current_user.role)
 
     # Log action
-    log_action(db, current_user.username, current_user.role, "CHAT", clean_query)
-
-    if not filtered:
-        return ChatResponse(
-            answer="I couldn't find any relevant information in the documents you have access to.",
-            sources=[],
-            role=current_user.role,
-            query=clean_query
-        )
-
-    # Build context
-    context = "\n\n".join([f"[{r['source']}]: {r['text']}" for r in filtered])
-
-    # Simple answer from context (LLM will replace this in Module 6)
-    answer = f"Based on your accessible documents, here is what I found:\n\n{filtered[0]['text'][:500]}..."
-
-    sources = [{"source": r["source"], "department": r["department"]} for r in filtered]
+    log_action(db, current_user.username, current_user.role, "CHAT", result["query"])
 
     return ChatResponse(
-        answer=answer,
-        sources=sources,
+        answer=result["answer"],
+        sources=result["sources"],
         role=current_user.role,
-        query=clean_query
+        query=result["query"]
     )
 
 @app.get("/health")
